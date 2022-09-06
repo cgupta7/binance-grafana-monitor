@@ -6,7 +6,7 @@ api_secret = config("SECRET_KEY")
 
 def main():
     symbol = "ETHBTC"
-    twm = ThreadedWebsocketManager(api_key=api_key, api_secret=api_secret)
+    twm = ThreadedWebsocketManager(api_key=api_key, api_secret=api_secret)  # type: ignore
     twm.start()
 
     def handle_message(msg):

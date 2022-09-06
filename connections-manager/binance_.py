@@ -9,7 +9,7 @@ def main():
 
     symbol = 'BNBBTC'
 
-    twm = ThreadedWebsocketManager(api_key=api_key, api_secret=api_secret)
+    twm = ThreadedWebsocketManager(api_key=api_key, api_secret=api_secret) # type: ignore
     # start is required to initialise its internal loop
     twm.start()
 
