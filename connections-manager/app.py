@@ -1,19 +1,32 @@
-from decouple import config
-from binance import ThreadedWebsocketManager
+from binance.websocket.spot.websocket_client import SpotWebsocketClient as WebsocketClient
+from binance.spot import Spot as Client
+from datetime import datetime
 
-api_key = config("API_KEY")
-api_secret = config("SECRET_KEY")
 
-def main():
-    symbol = "ETHBTC"
-    twm = ThreadedWebsocketManager(api_key=api_key, api_secret=api_secret)  # type: ignore
-    twm.start()
+base_urls = [   'https://api1.binance.com'
+                'https://api2.binance.com',
+                'https://api3.binance.com',]
 
-    def handle_message(msg):
-        print(msg)
 
-    twm.start_trade_socket(callback=handle_message,symbol=symbol)
-    twm.join()
+def message_handler(message_full):
+    message = message_full['data']
+    if 'e' in message and message['e'] == 'error':
+        print('X_X_X_X__X_X__X_X__X_X_X_X__X_X__X_X_X')
+        print(message)
+        print('X_X_X_X__X_X__X_X__X_X_X_X__X_X__X_X_X')
+    else:
+        if 'k' in message and message['k']['x']:
+            print(message)
+   
+ws_client = WebsocketClient()
+ws_client.start()
 
-if __name__ == "__main__":
-    main()
+
+# Combine selected streams
+ws_client.instant_subscribe(
+    stream=['bnbusdt@kline_1m','btcusdt@kline_1m', 'ethusdt@kline_1m'],
+    callback=message_handler,
+)
+
+# time.sleep(5)
+# ws_client.stop()
