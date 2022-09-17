@@ -8,6 +8,10 @@ close double PRECISION NOT NULL
 quantity double PRECISION NOT NULL,
 trades integer NOT NULL);
 
+alter table kline_trade_data_bin
+    add constraint kline_trade_data_bin_pk
+        primary key (time, symbol);
+
 SELECT create_hypertable('kline_trade_data_bin','time');
 
 CREATE MATERIALIZED VIEW ohlc_data_minute

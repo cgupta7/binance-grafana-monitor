@@ -1,0 +1,1 @@
+delete  from public.kline_trade_data_bin;
